@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>En julegave til deg</title>
+<style>
+:root{--bg:#fff0f4;--fg:#4a1a2c;--accent:#d6204f;--ribbon:#ff8fab;--box:#d6204f;--card:#ffffff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#2a0f1c;--fg:#ffe9ef;--card:#3d1828;--ribbon:#ff8fab}}
+:root[data-theme="dark"]{--bg:#2a0f1c;--fg:#ffe9ef;--card:#3d1828;--ribbon:#ff8fab}
+html,body{height:100%;margin:0}
+body{background:var(--bg);color:var(--fg);font-family:Georgia,"Times New Roman",serif;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden}
+main{padding:24px;max-width:480px;width:100%}
+h1{font-size:clamp(1.6rem,6vw,2.2rem);margin:0 0 .4em}
+p{font-size:1.1rem;margin:.3em 0 1.2em;opacity:.85}
+button{all:unset;cursor:pointer;display:inline-block}
+.gift{width:170px;height:170px;position:relative;margin:10px auto 24px;transition:transform .2s}
+.gift:hover{transform:scale(1.05)}
+.box{position:absolute;bottom:0;left:10px;right:10px;height:110px;background:var(--box);border-radius:6px}
+.lid{position:absolute;bottom:100px;left:0;right:0;height:36px;background:var(--box);border-radius:6px;filter:brightness(1.12);transition:transform .7s,opacity .7s;transform-origin:left bottom}
+.v{position:absolute;left:50%;width:22px;margin-left:-11px;background:var(--ribbon)}
+.box .v{top:0;bottom:0}.lid .v{top:0;bottom:0}
+.bow{position:absolute;bottom:130px;left:50%;margin-left:-28px;width:56px;height:30px;transition:transform .7s,opacity .7s}
+.bow:before,.bow:after{content:"";position:absolute;top:0;width:26px;height:26px;border:6px solid var(--ribbon);border-radius:50% 50% 0 50%}
+.bow:before{left:0;transform:rotate(-20deg)}.bow:after{right:0;transform:scaleX(-1) rotate(-20deg)}
+.open .lid{transform:translate(-30px,-60px) rotate(-35deg);opacity:0}
+.open .bow{transform:translateY(-70px);opacity:0}
+.hint{font-size:.95rem;opacity:.6}
+#reveal{display:none}
+.show #reveal{display:block;animation:pop .8s ease both}
+.show #start{display:none}
+.card{background:var(--card);border:2px solid var(--ribbon);border-radius:16px;padding:28px 20px;box-shadow:0 8px 30px rgba(0,0,0,.15)}
+.amount{font-size:clamp(2.6rem,12vw,3.6rem);color:var(--accent);font-weight:bold;margin:.1em 0}
+.emoji{font-size:3rem;animation:beat 1.2s ease-in-out infinite}@keyframes beat{0%,100%{transform:scale(1)}15%{transform:scale(1.2)}30%{transform:scale(1)}45%{transform:scale(1.15)}}
+@keyframes pop{from{opacity:0;transform:scale(.7) translateY(20px)}to{opacity:1;transform:none}}
+.flake{position:fixed;top:-20px;color:var(--ribbon);opacity:.7;animation:fall linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg)}}
+</style>
+</head>
+<body>
+<main id="app">
+  <section id="start">
+    <h1>Du har fått en gave! 💝</h1>
+    <p>Fra noen som er utrolig glad i deg…</p>
+    <button class="gift" id="gift" aria-label="Åpne gaven">
+      <span class="bow"></span>
+      <span class="lid"><span class="v"></span></span>
+      <span class="box"><span class="v"></span></span>
+    </button>
+    <div class="hint">Trykk på gaven for å åpne den ❤</div>
+  </section>
+  <section id="reveal">
+    <div class="card">
+      <div class="emoji">💖</div>
+      <h1>God jul, kjære!</h1>
+      <p>Du har fått</p>
+      <div class="amount">1000 kr</div>
+      <p>til skiutstyr ⛷️</p>
+      <p>Jeg gleder meg til å sjekke løypene med deg 💕</p>
+      <div class="emoji">❤️</div>
+    </div>
+  </section>
+</main>
+<script>
+(function(){
+  var app=document.getElementById('app'),g=document.getElementById('gift');
+  function snow(){
+    var s=['❤','💕','💗','💖','❄'];
+    for(var i=0;i<40;i++){
+      var f=document.createElement('div');
+      f.className='flake';
+      f.textContent=s[i%s.length];
+      f.style.left=Math.random()*100+'vw';
+      f.style.fontSize=(12+Math.random()*18)+'px';
+      f.style.animationDuration=(3+Math.random()*4)+'s';
+      f.style.animationDelay=(Math.random()*1.5)+'s';
+      document.body.appendChild(f);
+    }
+  }
+  g.addEventListener('click',function(){
+    g.parentNode.classList.add('open');
+    setTimeout(function(){document.body.classList.add('show');snow();},800);
+  });
+})();
+</script>
+</body>
+</html>
